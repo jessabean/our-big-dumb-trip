@@ -14,10 +14,18 @@ module.exports = function(environment) {
     },
 
     APP: {
-      // Here you can pass flags/options to your application instance
-      // when it is created
     }
   };
+
+  try {
+    var local = require('./local_environment');
+    Object.keys(local.config).forEach(function(key) {
+      ENV[key] = local.config[key];
+      console.log(`set ${key} to ${local.config[key]}`);
+    });
+  } catch(err) {
+    console.log("config/local_environment.js not found");
+  }
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
